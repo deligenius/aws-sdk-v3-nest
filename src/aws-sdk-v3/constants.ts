@@ -1,0 +1,1 @@
+export const AWS_SDK_V3_MODULE = 'AWS_SDK_V3_MODULE';
