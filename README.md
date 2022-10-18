@@ -1,103 +1,150 @@
-# TSDX User Guide
+# AWS SDK V3 NestJS
 
-Congrats! You just saved yourself hours of work by bootstrapping this project with TSDX. Let’s get you oriented with what’s here and how to use it.
+## Quick Start
 
-> This TSDX setup is meant for developing libraries (not apps!) that can be published to NPM. If you’re looking to build a Node app, you could use `ts-node-dev`, plain `ts-node`, or simple `tsc`.
+Let's build a S3 client and inject it into the nest app.
 
-> If you’re new to TypeScript, checkout [this handy cheatsheet](https://devhints.io/typescript)
-
-## Commands
-
-TSDX scaffolds your new library inside `/src`.
-
-To run TSDX, use:
-
-```bash
-npm start # or yarn start
+```
+npm install aws-sdk-v3-nest @aws-sdk/client-s3
 ```
 
-This builds to `/dist` and runs the project in watch mode so any edits you save inside `src` causes a rebuild to `/dist`.
+1. Register the module with a S3 instance
 
-To do a one-off build, use `npm run build` or `yarn build`.
+```ts
+// app.module.ts
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { AwsSdkModule } from 'aws-sdk-v3-nest';
+import { S3Client } from '@aws-sdk/client-s3';
 
-To run tests, use `npm test` or `yarn test`.
-
-## Configuration
-
-Code quality is set up for you with `prettier`, `husky`, and `lint-staged`. Adjust the respective fields in `package.json` accordingly.
-
-### Jest
-
-Jest tests are set up to run with `npm test` or `yarn test`.
-
-### Bundle Analysis
-
-[`size-limit`](https://github.com/ai/size-limit) is set up to calculate the real cost of your library with `npm run size` and visualize the bundle with `npm run analyze`.
-
-#### Setup Files
-
-This is the folder structure we set up for you:
-
-```txt
-/src
-  index.tsx       # EDIT THIS
-/test
-  blah.test.tsx   # EDIT THIS
-.gitignore
-package.json
-README.md         # EDIT THIS
-tsconfig.json
+@Module({
+  imports: [
+    // register S3 client
+    AwsSdkModule.register({
+      client: new S3Client({
+        region: 'us-west-2',
+      }),
+    }),
+  ],
+  controllers: [AppController],
+  providers: [AppService],
+})
+export class AppModule {}
 ```
 
-### Rollup
+2. use the S3 client in `app.controller.ts`
 
-TSDX uses [Rollup](https://rollupjs.org) as a bundler and generates multiple rollup configs for various module formats and build settings. See [Optimizations](#optimizations) for details.
+```ts
+import { ListBucketsCommand, S3Client } from '@aws-sdk/client-s3';
+import { Controller, Get } from '@nestjs/common';
+import { AppService } from './app.service';
+import { InjectAws } from './aws-sdk-v3';
 
-### TypeScript
-
-`tsconfig.json` is set up to interpret `dom` and `esnext` types, as well as `react` for `jsx`. Adjust according to your needs.
-
-## Continuous Integration
-
-### GitHub Actions
-
-Two actions are added by default:
-
-- `main` which installs deps w/ cache, lints, tests, and builds on all pushes against a Node and OS matrix
-- `size` which comments cost comparison of your library on every pull request using [`size-limit`](https://github.com/ai/size-limit)
-
-## Optimizations
-
-Please see the main `tsdx` [optimizations docs](https://github.com/palmerhq/tsdx#optimizations). In particular, know that you can take advantage of development-only optimizations:
-
-```js
-// ./types/index.d.ts
-declare var __DEV__: boolean;
-
-// inside your code...
-if (__DEV__) {
-  console.log('foo');
+@Controller()
+export class AppController {
+  constructor(
+    private readonly appService: AppService,
+    @InjectAws(S3Client) private readonly s3: S3Client
+  ) {}
+  @Get()
+  async helloAws() {
+    const listCommand = new ListBucketsCommand({});
+    const res = await this.s3.send(listCommand);
+    return res;
+  }
 }
 ```
 
-You can also choose to install and use [invariant](https://github.com/palmerhq/tsdx#invariant) and [warning](https://github.com/palmerhq/tsdx#warning) functions.
+3. done!
 
-## Module Formats
+## Register a Client
 
-CJS, ESModules, and UMD module formats are supported.
+Register a client in any module, you can use any client you want. As long as it's a [AWS SDK V3 client](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/index.html)
 
-The appropriate paths are configured in `package.json` and `dist/index.js` accordingly. Please report if any issues are found.
+```ts
+AwsSdkModule.register({
+  client: new S3Client({
+    region: 'us-west-2',
+  }),
+});
+```
 
-## Named Exports
 
-Per Palmer Group guidelines, [always use named exports.](https://github.com/palmerhq/typescript#exports) Code split inside your React app instead of your React library.
+## Async Register
 
-## Including Styles
+```ts
+AwsSdkModule.registerAsync({
+  clientType: S3Client,
+  useFactory: async () => {
+    const s3 = new S3Client({
+      region: 'us-west-2',
+    });
 
-There are many ways to ship styles, including with CSS-in-JS. TSDX has no opinion on this, configure how you like.
+    try {
+      const listCommand = new ListBucketsCommand({});
+      const res = await s3.send(listCommand);
+      console.log('Connected to S3');
+    } catch (e) {
+      console.log('Unable to connect to S3', e);
+    }
 
-For vanilla CSS, you can include it at the root directory and add it to the `files` section in your `package.json`, so that it can be imported separately by your users and run through their bundler's loader.
+    return s3;
+  },
+});
+```
 
-## Publishing to NPM
+### Use `@InjectAws(Client)`
 
-We recommend using [np](https://github.com/sindresorhus/np).
+Make sure the `Client` is the type you registered in module.
+```ts
+import { ListBucketsCommand, S3Client } from '@aws-sdk/client-s3';
+import { Controller, Get } from '@nestjs/common';
+import { AppService } from './app.service';
+import { InjectAws } from './aws-sdk-v3';
+
+@Controller()
+export class AppController {
+  constructor(
+    private readonly appService: AppService,
+    @InjectAws(S3Client) private readonly s3: S3Client,
+  ) {}
+  @Get()
+  async helloAws() {
+    const listCommand = new ListBucketsCommand({});
+    const res = await this.s3.send(listCommand);
+    return res;
+  }
+}
+```
+
+
+### Multiple Injection/Instances
+
+Please use `key` attribute as the identifier for each `Client`
+
+Example: 
+1. register the S3 Client with key `UserModule
+```ts
+AwsSdkModule.register({
+  // register the S3 Client with key `UserModule
+  key: 'US-WEST-2-CLIENT',
+  client: new S3Client({
+    region: 'us-west-2',
+  }),
+}),
+AwsSdkModule.register({
+  // register the S3 Client with key `UserModule
+  key: 'US-EAST-1-CLIENT',
+  client: new S3Client({
+    region: 'us-east-1',
+  }),
+}),
+```
+
+2. refer the S3 client use `@InjectAws(Client, key)`
+```ts
+@InjectAws(S3Client, "US-WEST-2-CLIENT") private readonly s3west2: S3Client,
+@InjectAws(S3Client, "US-EAST-1-CLIENT") private readonly s3east1: S3Client,
+```
+

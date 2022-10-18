@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -35,7 +35,7 @@
   "author": "Jun Guo",
   "repository": {
     "type": "git",
-    "url":  "git+@https://github.com/deligenius/aws-sdk-v3-nest.git"
+    "url":  "https://github.com/deligenius/aws-sdk-v3-nest.git"
   },
   "module": "dist/aws-sdk-v3-nest.esm.js",
   "size-limit": [
