@@ -45,7 +45,8 @@ import { InjectAws } from './aws-sdk-v3';
 export class AppController {
   constructor(
     private readonly appService: AppService,
-    @InjectAws(S3Client) private readonly s3: S3Client
+    // inject the client
+    @InjectAws(S3Client) private readonly s3: S3Client 
   ) {}
   @Get()
   async helloAws() {
