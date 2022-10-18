@@ -119,7 +119,7 @@ export class AppController {
 ```
 
 
-### Multiple Injection/Instances
+## Multiple Injection/Instances
 
 Please use `key` attribute as the identifier for each `Client`
 
@@ -148,3 +148,15 @@ AwsSdkModule.register({
 @InjectAws(S3Client, "US-EAST-1-CLIENT") private readonly s3east1: S3Client,
 ```
 
+## Global Module
+
+Set the option `isGlobal: true` to enable it
+
+```ts
+AwsSdkModule.register({
+  isGlobal: true,
+  client: new S3Client({
+    region: 'us-west-2',
+  }),
+});
+```
