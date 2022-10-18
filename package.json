@@ -33,6 +33,10 @@
   },
   "name": "aws-sdk-v3-nest",
   "author": "Jun Guo",
+  "repository": {
+    "type": "git",
+    "url":  "git+@https://github.com/deligenius/aws-sdk-v3-nest.git"
+  },
   "module": "dist/aws-sdk-v3-nest.esm.js",
   "size-limit": [
     {
