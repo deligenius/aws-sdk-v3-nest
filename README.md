@@ -8,7 +8,7 @@ Let's build a S3 client and inject it into the nest app.
 npm install aws-sdk-v3-nest @aws-sdk/client-s3
 ```
 
-1. Register the module with a S3 instance, in `app.module.ts`
+1. Register the module with a S3 Client, in `app.module.ts`
 
 ```ts
 import { Module } from '@nestjs/common';
