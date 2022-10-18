@@ -124,17 +124,17 @@ export class AppController {
 Please use `key` attribute as the identifier for each `Client`
 
 Example: 
-1. register the S3 Client with key `UserModule
+1. register the S3 Client with a unique `key `
 ```ts
 AwsSdkModule.register({
-  // register the S3 Client with key `UserModule
+  // register the S3 Client with key `US-WEST-2-CLIENT`
   key: 'US-WEST-2-CLIENT',
   client: new S3Client({
     region: 'us-west-2',
   }),
 }),
 AwsSdkModule.register({
-  // register the S3 Client with key `UserModule
+  // register the S3 Client with key `US-EAST-1-CLIENT`
   key: 'US-EAST-1-CLIENT',
   client: new S3Client({
     region: 'us-east-1',
