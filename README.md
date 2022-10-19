@@ -8,10 +8,9 @@ Let's build a S3 client and inject it into the nest app.
 npm install aws-sdk-v3-nest @aws-sdk/client-s3
 ```
 
-1. Register the module with a S3 instance
+1. Register the module with a S3 Client, in `app.module.ts`
 
 ```ts
-// app.module.ts
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -39,13 +38,14 @@ export class AppModule {}
 import { ListBucketsCommand, S3Client } from '@aws-sdk/client-s3';
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import { InjectAws } from './aws-sdk-v3';
+import { InjectAws } from 'aws-sdk-v3';
 
 @Controller()
 export class AppController {
   constructor(
     private readonly appService: AppService,
-    @InjectAws(S3Client) private readonly s3: S3Client
+    // inject the client
+    @InjectAws(S3Client) private readonly s3: S3Client 
   ) {}
   @Get()
   async helloAws() {
@@ -119,22 +119,22 @@ export class AppController {
 ```
 
 
-### Multiple Injection/Instances
+## Multiple Injection/Instances
 
 Please use `key` attribute as the identifier for each `Client`
 
 Example: 
-1. register the S3 Client with key `UserModule
+1. register the S3 Client with a unique `key `
 ```ts
 AwsSdkModule.register({
-  // register the S3 Client with key `UserModule
+  // register the S3 Client with key `US-WEST-2-CLIENT`
   key: 'US-WEST-2-CLIENT',
   client: new S3Client({
     region: 'us-west-2',
   }),
 }),
 AwsSdkModule.register({
-  // register the S3 Client with key `UserModule
+  // register the S3 Client with key `US-EAST-1-CLIENT`
   key: 'US-EAST-1-CLIENT',
   client: new S3Client({
     region: 'us-east-1',
@@ -148,3 +148,15 @@ AwsSdkModule.register({
 @InjectAws(S3Client, "US-EAST-1-CLIENT") private readonly s3east1: S3Client,
 ```
 
+## Global Module
+
+Set the option `isGlobal: true` to enable it
+
+```ts
+AwsSdkModule.register({
+  isGlobal: true,
+  client: new S3Client({
+    region: 'us-west-2',
+  }),
+});
+```
