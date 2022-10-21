@@ -101,7 +101,7 @@ Make sure the `Client` is the type you registered in module.
 import { ListBucketsCommand, S3Client } from '@aws-sdk/client-s3';
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import { InjectAws } from './aws-sdk-v3';
+import { InjectAws } from 'aws-sdk-v3-nest';
 
 @Controller()
 export class AppController {
