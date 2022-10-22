@@ -1,5 +1,7 @@
 # AWS SDK V3 NestJS
 
+> AWS SDK Javascript V3 dynamic module for NestJS
+
 ## Quick Start
 
 Let's build a S3 client and inject it into the nest app.
