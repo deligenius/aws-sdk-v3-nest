@@ -164,3 +164,9 @@ AwsSdkModule.register({
   }),
 });
 ```
+
+### Credit
+
+Contributor: [@gjuoun](https://github.com/gjuoun)
+
+Inspired by: [nest-aws-sdk](https://www.npmjs.com/package/nest-aws-sdk)
