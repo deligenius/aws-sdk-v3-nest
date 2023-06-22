@@ -5,7 +5,7 @@ import {
   ModuleMetadata,
   Provider,
 } from '@nestjs/common';
-import { AWS_SDK_V3_MODULE } from './constants';
+import { getClientToken } from './aws-sdk-v3.util';
 
 interface RegisterOptions<C extends ClassDefinition> {
   isGlobal?: boolean;
@@ -27,12 +27,12 @@ interface RegisterAsyncOptions<C extends ClassDefinition>
 @Module({})
 export class AwsSdkModule {
   static register<C extends ClassDefinition>(
-    options: RegisterOptions<C>,
+    options: RegisterOptions<C>
   ): DynamicModule {
     const { client, key = '', isGlobal = false } = options;
 
-    const className = client.__proto__.constructor.name as string;
-    const providerToken = `${AWS_SDK_V3_MODULE}#${className}#${key}`;
+    // const className = client.__proto__.constructor.name as string;
+    const providerToken = getClientToken(client, key);
 
     const ClientProvider: Provider = {
       provide: providerToken,
@@ -48,7 +48,7 @@ export class AwsSdkModule {
   }
 
   static async registerAsync<C extends ClassDefinition>(
-    options: RegisterAsyncOptions<C>,
+    options: RegisterAsyncOptions<C>
   ): Promise<DynamicModule> {
     const {
       useFactory,
@@ -59,8 +59,8 @@ export class AwsSdkModule {
       clientType,
     } = options;
 
-    const className = clientType.name;
-    const providerToken = `${AWS_SDK_V3_MODULE}#${className}#${key}`;
+    // const className = clientType.name;
+    const providerToken = getClientToken(clientType, key);
 
     const ClientProvider: Provider = {
       inject,

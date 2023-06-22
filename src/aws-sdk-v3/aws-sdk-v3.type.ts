@@ -5,3 +5,7 @@ export type ClassConstructorReturnType<T> = T extends new (
 ) => infer R
   ? R
   : any;
+
+export function isClassDefinition(value: any): value is ClassDefinition {
+  return typeof value === 'function';
+}
