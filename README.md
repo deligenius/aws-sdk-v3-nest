@@ -165,8 +165,15 @@ AwsSdkModule.register({
 });
 ```
 
+## Get client token
+
+If you need a client key for testing purpose. Please pass the [AWS SDK V3 client](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/index.html) and `key` to `getClientToken`
+
+```ts
+getClientToken(S3Client, key = "")
+```
+
 ### Credit
 
 Contributor: [@gjuoun](https://github.com/gjuoun)
-
 Inspired by: [nest-aws-sdk](https://www.npmjs.com/package/nest-aws-sdk)
