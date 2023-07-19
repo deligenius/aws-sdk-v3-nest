@@ -1,4 +1,4 @@
-# AWS SDK V3 NestJS
+# AWS SDK V3 Nest
 
 > AWS SDK Javascript V3 dynamic module for NestJS
 
