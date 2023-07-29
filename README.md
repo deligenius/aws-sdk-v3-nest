@@ -168,7 +168,7 @@ If you have same type of clients, please use the `key` attribute as the identifi
 
 Example for multiple S3 client instances
 
-### 1. register the S3 Client with a unique `key `
+### Register the S3 Client with a unique `key `
 ```ts
 AwsSdkModule.register({
   // register the S3 Client with key `US-WEST-2-CLIENT`
@@ -186,7 +186,7 @@ AwsSdkModule.register({
 }),
 ```
 
-### 2. refer the S3 client use `@InjectAws(Client, key)`
+### Inject and refer clients by `@InjectAws(Client, key)`
 ```ts
 @InjectAws(S3Client, "US-WEST-2-CLIENT") private readonly s3west2: S3Client,
 @InjectAws(S3Client, "US-EAST-1-CLIENT") private readonly s3east1: S3Client,
