@@ -4,7 +4,10 @@
 
 [![TypeScript](https://img.shields.io/badge/--3178C6?logo=typescript&logoColor=ffffff)](https://www.typescriptlang.org/) [![Npm package version](https://badgen.net/npm/v/aws-sdk-v3-nest)](https://www.npmjs.com/package/aws-sdk-v3-nest)
 
-## Quick Start
+<details>
+
+<summary><h3>Quick Start</h3></summary>
+
 
 Let's build a S3 client and inject it into the nest app.
 
@@ -62,6 +65,20 @@ export class AppController {
 
 3. done!
 
+</details>
+
+## Installation
+
+* Add `aws-sdk-v3-nest` to your project
+  ```bash
+   npm install aws-sdk-v3-nest
+   ```
+* Make sure at least one [AWS SDK for JavaScript V3](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/index.html) is in your project. Please skip this step if you already have it installed
+  ```bash
+  npm install @aws-sdk/client-s3
+   ```
+
+
 ## Register a Client
 
 You can register any AWS SDK client you want. As long as it's a [AWS SDK V3 client](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/index.html)
@@ -71,6 +88,11 @@ A good example: [`S3Client`](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/lat
 <img width="324" alt="image" src="https://github.com/deligenius/aws-sdk-v3-nest/assets/8935612/10230c29-0ad3-4bf7-a07d-e0a0e866b166">
 
 ```ts
+import { S3Client } from '@aws-sdk/client-s3';
+import { AwsSdkModule } from 'aws-sdk-v3-nest';
+
+// ... your code ...
+
 AwsSdkModule.register({
   client: new S3Client({
     region: 'us-west-2',
@@ -86,6 +108,11 @@ AwsSdkModule.register({
 The library provides an async `useFactory` that allows you to add more logics before setting up the client instance.
 
 ```ts
+import { S3Client, ListBucketsCommand } from '@aws-sdk/client-s3';
+import { AwsSdkModule } from 'aws-sdk-v3-nest';
+
+//... your code ...
+
 AwsSdkModule.registerAsync({
   clientType: S3Client,
   useFactory: async () => {
@@ -113,6 +140,7 @@ With a registered S3 client, you can now inject the instance to your service and
 > Make sure the `Client` is the type you registered in module.
 
 ```ts
+/** Use S3 client in AppController */
 import { ListBucketsCommand, S3Client } from '@aws-sdk/client-s3';
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
@@ -132,7 +160,6 @@ export class AppController {
   }
 }
 ```
-
 
 ## Multiple Injection/Instances
 
@@ -188,5 +215,4 @@ getClientToken(S3Client, key = "")
 
 ### Credit
 
-Contributor: [@gjuoun](https://github.com/gjuoun)
 Inspired by: [nest-aws-sdk](https://www.npmjs.com/package/nest-aws-sdk)
