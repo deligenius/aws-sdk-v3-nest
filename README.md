@@ -194,7 +194,8 @@ AwsSdkModule.register({
 
 ## Global Module
 
-Set the option `isGlobal: true` to enable it
+By default, a client is only available at where it is registered.
+You have an option to make it global, `isGlobal: true`
 
 ```ts
 AwsSdkModule.register({
