@@ -4,8 +4,8 @@
 
 
 > AWS SDK Javascript V3 dynamic module for NestJS
->
-> [![TypeScript](https://img.shields.io/badge/--3178C6?logo=typescript&logoColor=ffffff)](https://www.typescriptlang.org/) 
+
+[![TypeScript](https://img.shields.io/badge/--3178C6?logo=typescript&logoColor=ffffff)](https://www.typescriptlang.org/) 
 [![Npm package version](https://badgen.net/npm/v/aws-sdk-v3-nest)](https://www.npmjs.com/package/aws-sdk-v3-nest)
 ![npm](https://img.shields.io/npm/dw/aws-sdk-v3-nest)
 ![NPM](https://img.shields.io/npm/l/aws-sdk-v3-nest)
