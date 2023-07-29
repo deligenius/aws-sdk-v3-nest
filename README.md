@@ -66,6 +66,10 @@ export class AppController {
 
 Register a client in any module, you can use any client you want. As long as it's a [AWS SDK V3 client](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/index.html)
 
+A good example: [`S3Client`](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/s3/)
+
+<img width="324" alt="image" src="https://github.com/deligenius/aws-sdk-v3-nest/assets/8935612/10230c29-0ad3-4bf7-a07d-e0a0e866b166">
+
 ```ts
 AwsSdkModule.register({
   client: new S3Client({
@@ -73,6 +77,8 @@ AwsSdkModule.register({
   }),
 });
 ```
+
+
 
 
 ## Async Register
