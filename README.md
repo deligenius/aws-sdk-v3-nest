@@ -168,7 +168,7 @@ If you have same type of clients, please use the `key` attribute as the identifi
 
 Example for multiple S3 client instances
 
-### Register the S3 Client with a unique `key `
+### Register the S3 Client with a unique `key`
 ```ts
 AwsSdkModule.register({
   // register the S3 Client with key `US-WEST-2-CLIENT`
