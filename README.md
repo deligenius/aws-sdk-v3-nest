@@ -86,6 +86,18 @@ export class AppController {
   npm install @aws-sdk/client-s3
    ```
 
+## Add Environment Variables
+
+Ensure the following environment variables are present in your project. These variables are critical for authentication and communication with AWS services.
+
+**Security Note:** Treat these keys as sensitive information. Do not commit them to public repositories and ensure they are securely stored and accessed.
+
+**Setting Up:** Typically, these variables are placed in a `.env` file in your project's root directory or configured directly in your deployment platform's environment settings.
+
+```bash
+AWS_ACCESS_KEY_ID=your_access_key_id
+AWS_SECRET_ACCESS_KEY=your_secret_access_key
+```
 
 ## Register a Client
 
