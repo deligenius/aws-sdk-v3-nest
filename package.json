@@ -1,60 +1,47 @@
 {
-  "version": "0.3.0",
-  "license": "MIT",
-  "main": "./dist/index.js",
-  "typings": "./dist/index.d.ts",
+  "name": "aws-sdk-v3-nest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/cjs/index.js",
+  "types": "dist/cjs/index.d.ts",
+  "module": "dist/esm/index.js",
   "files": [
     "./dist"
   ],
-  "engines": {
-    "node": ">=10"
-  },
-  "scripts": {
-    "start": "tsdx watch",
-    "build": "tsdx build",
-    "test": "tsdx test",
-    "lint": "tsdx lint",
-    "prepare": "tsdx build",
-    "size": "size-limit",
-    "analyze": "size-limit --why"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "tsdx lint"
+  "exports": {
+    "import": {
+      "types": "./dist/esm/index.d.ts",
+      "default": "./dist/esm/index.js"
+    },
+    "require": {
+      "types": "./dist/cjs/index.d.ts",
+      "default": "./dist/cjs/index.js"
     }
   },
-  "prettier": {
-    "printWidth": 80,
-    "semi": true,
-    "singleQuote": true,
-    "trailingComma": "es5"
+  "type": "module",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build:cjs": "tsc -p tsconfig.cjs.json && cp package.cjs.json dist/cjs/package.json",
+    "build:esm": "tsc -p tsconfig.esm.json",
+    "build": "npm run clean && npm run build:cjs && npm run build:esm",
+    "prepublishOnly": "npm run build"
   },
-  "name": "aws-sdk-v3-nest",
+  "keywords": [
+    "nest.js",
+    "dynamic module",
+    "typescript",
+    "aws-sdk-v3"
+  ],
   "author": "Jun Guo",
   "repository": {
     "type": "git",
     "url": "https://github.com/deligenius/aws-sdk-v3-nest.git"
   },
-  "module": "dist/aws-sdk-v3-nest.esm.js",
-  "size-limit": [
-    {
-      "path": "dist/aws-sdk-v3-nest.cjs.production.min.js",
-      "limit": "10 KB"
-    },
-    {
-      "path": "dist/aws-sdk-v3-nest.esm.js",
-      "limit": "10 KB"
-    }
-  ],
-  "devDependencies": {
-    "@size-limit/preset-small-lib": "^8.1.0",
-    "husky": "^8.0.1",
-    "size-limit": "^8.1.0",
-    "tsdx": "^0.14.1",
-    "tslib": "^2.4.0",
-    "typescript": "^4.8.4"
-  },
+  "license": "MIT",
   "peerDependencies": {
     "@nestjs/common": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
   }
 }
