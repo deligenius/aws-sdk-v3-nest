@@ -1,11 +1,11 @@
-export type ClassDefinition = new (...args: any[]) => any;
+export type ClassDefinition = new (...args: unknown[]) => unknown;
 
 export type ClassConstructorReturnType<T> = T extends new (
-  ...args: any[]
+  ...args: unknown[]
 ) => infer R
   ? R
-  : any;
+  : unknown;
 
-export function isClassDefinition(value: any): value is ClassDefinition {
+export function isClassDefinition(value: unknown): value is ClassDefinition {
   return typeof value === 'function';
 }
