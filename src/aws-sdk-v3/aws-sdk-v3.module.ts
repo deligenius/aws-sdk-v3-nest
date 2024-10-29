@@ -24,7 +24,7 @@ interface RegisterAsyncOptions<C extends ClassDefinition>
 	clientType: C;
 	inject?: InjectionToken[];
 	useFactory: (
-		...args: unknown[]
+		...args: any[]
 	) => ClassConstructorReturnType<C> | Promise<ClassConstructorReturnType<C>>;
 }
 
